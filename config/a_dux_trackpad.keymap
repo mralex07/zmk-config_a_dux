@@ -232,7 +232,7 @@
             bindings = <&kp MINUS>;
         };
     };
-};
+
     behaviors {
         shft_cw: shift_and_caps_word {
             compatible = "zmk,behavior-tap-dance";
@@ -275,6 +275,8 @@
             then-layer = <FUN>;
         };
     };
+};
+};
 
  / {
    keymap {
