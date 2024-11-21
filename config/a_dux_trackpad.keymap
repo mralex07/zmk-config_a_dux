@@ -265,7 +265,7 @@
             bindings = <&kp C_PLAY_PAUSE>, <&kp C_NEXT>, <&kp C_PREVIOUS>;
         };
 
-        numword_td: numword_tap_dance {
+/*        numword_td: numword_tap_dance {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
@@ -307,6 +307,7 @@
             // Every key set in mouse layer
         };
     };
+*/
 
     macros {
         lc: mo_layer_switch_with_an_embeded_cancel_tap {
