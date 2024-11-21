@@ -21,7 +21,7 @@
 
     tpad_central_listener {
         compatible = "zmk,input-behavior-listener";
-        device = <&glidepoint0>;
+        device = <&glidepoint1>;
         y-invert;
         scale-multiplier = <2>;
         
