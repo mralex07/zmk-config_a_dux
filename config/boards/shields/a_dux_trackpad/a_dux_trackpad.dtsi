@@ -49,6 +49,7 @@
             <&pro_micro  9 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
         ;
     };
+    };
     
     &pinctrl {
     
@@ -66,6 +67,7 @@
         low-power-enable;
         };
     };
+};
 
     &i2c0 {
     status = "disabled";
@@ -82,6 +84,26 @@
 
 };
 
-};
 
-};
+
+/ {
+// 	/* assign `input-listener` to all pointing devices */
+// 	/* &glidepoint0 on central, &glidepoint1 on peripheral */
+//     tpad_central_listener {
+//         compatible = "zmk,input-behavior-listener";
+//         device = <&glidepoint0>;
+//         y-invert;
+//         scale-multiplier = <3>;
+//         // xy-swap;
+//         // x-invert;
+// 	};
+// 
+     tpad_peripheral_listener {
+         compatible = "zmk,input-behavior-listener";
+         device = <&glidepoint1>;
+         y-invert;
+         scale-multiplier = <3>;
+         // xy-swap;
+         // x-invert;
+ 	};
+ };
