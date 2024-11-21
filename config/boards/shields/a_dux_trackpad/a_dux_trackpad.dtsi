@@ -49,6 +49,9 @@
             <&pro_micro  9 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
         ;
     };
+    
+    &pinctrl {
+    
     i2c0_default: i2c0_default {
     group1 {
       psels = <NRF_PSEL(TWIM_SDA, 1, 01)>,
@@ -76,6 +79,8 @@
         // sleep;
         // no-taps;
     };
+
+};
 
 };
 
