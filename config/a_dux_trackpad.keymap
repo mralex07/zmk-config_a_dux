@@ -35,7 +35,7 @@
     tpad_peripheral_listener {
         compatible = "zmk,input-behavior-listener";
         device = <&glidepoint1>;
-        layers = <QWERTY_L>;
+        layers = <DEF>;
         y-invert;
         scale-multiplier = <2>;
 
@@ -49,7 +49,7 @@
     tpad_peripheral_scroll {
         compatible = "zmk,input-behavior-listener";
         device = <&glidepoint1>;
-        layers = <QWERTY_L>;
+        layers = <DEF>;
 
         /* NOTE: only apply input-code overriding for INPUT_EV_REL */
 
