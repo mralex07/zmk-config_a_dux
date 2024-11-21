@@ -1,0 +1,47 @@
+/*
+ * Copyright (c) 2021 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include "a_dux.dtsi"
+
+&default_transform {
+    col-offset = <17>;
+};
+
+&i2c0 {
+    status = "okay";
+    glidepoint0: glidepoint@2a {
+        status = "okay";
+	
+	// trackpad adjust parametres 
+	sensitivity = "1x";
+	// rotate-90;
+        // sleep;
+        // no-taps;
+	// x-axis-z-min = <5>;
+	// y-axis-z-min = <4>;
+    };
+};
+
+/ {
+    /* THIS only makes keymap binding happy, nothing happens on peripheral side */
+	glidepoint1: virtual_input {
+		compatible = "zmk,virtual-input";
+	};
+
+    input_relay_config_102 {
+        compatible = "zmk,split-peripheral-input-relay";
+
+        /* peripheral side input device, used to... */
+		/*  - be intecepted on peripheral; */
+		/*  - and then, be resurrected as `zmk,virtual-device` on central; */
+        device = <&glidepoint0>;
+
+        /* channel id, used to be be transfered along with all input events. */
+		/* NOTE 1: pick any 8bit integer. (1 - 255) */
+		/* NOTE 2: should matching relay-channel on central overlay */
+		relay-channel = <102>;
+    };
+};
