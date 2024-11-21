@@ -14,8 +14,8 @@
 ---
 include:
   - board: nice_nano_v2
-    shield: a_dux_left
+    shield: a_dux_trackpad_left
   - board: nice_nano_v2
-    shield: a_dux_right
+    shield: a_dux_trackpad_right
   - board: nice_nano_v2
     shield: settings_reset
