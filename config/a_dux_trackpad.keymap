@@ -153,17 +153,6 @@
             bindings = <&kp ENTER>;
         };
 
-        activate_smart_mouse_layer_combo {
-            key-positions = <26 27 28>;
-            layers = <DEF>;
-            bindings = <&smart_mouse>;
-        };
-
-        aoe_toggle_aoe_gaming_layers {
-            bindings = <&tog AOE>;
-            layers = <DEF AOE>;
-            key-positions = <21 22 23>;
-        };
 
         // Keyboard adjustments combos (replaces a dedicated SYS layer)
 
