@@ -36,6 +36,7 @@
             <&pro_micro  9 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
         ;
     };
+};
 
 &pinctrl {
     
@@ -54,7 +55,7 @@
         };
     };
 };
-};
+
 
 &i2c0 {
     status = "okay";
