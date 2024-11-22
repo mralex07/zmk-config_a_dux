@@ -6,7 +6,6 @@
 
 #include "a_dux_trackpad.dtsi"
 
-/ {
         kscan0: kscan {
         compatible = "zmk,kscan-gpio-direct";
         wakeup-source;
@@ -32,6 +31,7 @@
         ;
     };
 	
+/ {
 	/* define virtual input, will be resurrected for emitting input event */
 	/* NOTE: set `device = <&glidepoint1>` in `zmk,input-listener` */
 	glidepoint1: virtual_input {
