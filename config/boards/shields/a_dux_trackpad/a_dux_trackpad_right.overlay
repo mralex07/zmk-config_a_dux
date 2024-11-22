@@ -10,6 +10,7 @@
     col-offset = <17>;
 };
 
+/{
     kscan0: kscan {
         compatible = "zmk,kscan-gpio-direct";
         wakeup-source;
@@ -52,6 +53,7 @@
         low-power-enable;
         };
     };
+};
 };
 
 &i2c0 {
