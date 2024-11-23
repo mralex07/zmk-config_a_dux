@@ -63,11 +63,14 @@
 	
 	// trackpad adjust parametres 
 	sensitivity = "1x";
-	rotate-90;
+	rotate-90; // xy-swap;
         // sleep;
         // no-taps;
 	// x-axis-z-min = <5>;
 	// y-axis-z-min = <4>;
+    
+    y-invert;
+    x-invert;
     };
 };
 
