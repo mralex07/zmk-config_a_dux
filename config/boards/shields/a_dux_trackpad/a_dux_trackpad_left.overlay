@@ -33,7 +33,7 @@
             <&pro_micro  9 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
         ;
     };
-    
+
     /* define virtual input, will be resurrected for emitting input event */
 	/* NOTE: set `device = <&glidepoint1>` in `zmk,input-listener` */
 	glidepoint1: virtual_input {
@@ -51,4 +51,16 @@
 		/* virtual input device on central, which used to emit input event as an agent device */
 		device = <&glidepoint1>;
 	};
+};
+
+/ {
+    glidepoint_input {
+        compatible = "zmk,input-listener";
+        device = <&glidepoint1>;
+
+        // Options for cirque, to be defined in the keyboard shield
+        // xy-swap;
+        y-invert;
+        x-invert;
+    };
 };
