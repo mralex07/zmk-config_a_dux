@@ -51,10 +51,11 @@ manifest:
       remote: badjeff
       revision: main      
     - name: cirque-input-module
-      remote: badjeff
-      revision: main
+      remote: petejohanson
+      revision: feat/idle-waker-wake-from-sleep-fixes
     - name: chiptuner-zmk-module
       remote: petejohanson
       revision: main
+
   self:
     path: config
