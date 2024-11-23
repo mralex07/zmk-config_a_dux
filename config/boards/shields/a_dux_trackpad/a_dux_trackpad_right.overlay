@@ -69,8 +69,19 @@
 	// x-axis-z-min = <5>;
 	// y-axis-z-min = <4>;
     
-    y-invert;
-    x-invert;
+
+    };
+};
+
+/ {
+    glidepoint_input {
+        compatible = "zmk,input-listener";
+        device = <&glidepoint0>;
+
+        // Options for cirque, to be defined in the keyboard shield
+        // xy-swap;
+        y-invert;
+        x-invert;
     };
 };
 
