@@ -53,14 +53,3 @@
 	};
 };
 
-/ {
-    glidepoint_input {
-        compatible = "zmk,input-listener";
-        device = <&glidepoint1>;
-
-        // Options for cirque, to be defined in the keyboard shield
-        // xy-swap;
-        y-invert;
-        x-invert;
-    };
-};

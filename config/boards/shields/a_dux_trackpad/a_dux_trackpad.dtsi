@@ -65,6 +65,7 @@
          y-invert;
          scale-multiplier = <3>;
          // xy-swap;
-         // x-invert;
+         x-invert;
+         y-invert;
  	};
  };

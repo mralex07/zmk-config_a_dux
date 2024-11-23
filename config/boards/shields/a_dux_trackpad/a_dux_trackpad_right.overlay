@@ -73,17 +73,7 @@
     };
 };
 
-/ {
-    glidepoint_input {
-        compatible = "zmk,input-listener";
-        device = <&glidepoint0>;
 
-        // Options for cirque, to be defined in the keyboard shield
-        // xy-swap;
-        y-invert;
-        x-invert;
-    };
-};
 
 / {
     /* THIS only makes keymap binding happy, nothing happens on peripheral side */
