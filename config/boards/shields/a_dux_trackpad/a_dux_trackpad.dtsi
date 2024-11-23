@@ -62,10 +62,9 @@
      tpad_peripheral_listener {
          compatible = "zmk,input-behavior-listener";
          device = <&glidepoint1>;
-         y-invert;
-         scale-multiplier = <3>;
+         //y-invert;
+         scale-multiplier = <2>;
          // xy-swap;
          x-invert;
-         y-invert;
  	};
  };
