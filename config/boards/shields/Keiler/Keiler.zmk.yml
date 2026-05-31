@@ -1,0 +1,12 @@
+file_format: "1"
+id: keiler
+name: Keiler
+type: shield
+url: https://github.com/jonathanforking/Keiler
+requires: 
+  - pro_micro
+features:
+  - keys
+siblings:
+  - Keiler_left
+  - Keiler_right
