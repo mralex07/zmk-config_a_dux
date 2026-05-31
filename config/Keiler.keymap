@@ -5,9 +5,11 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/outputs.h>
+#include <dt-bindings/zmk/pointing.h>
 
 #define SYM 1
 #define NUM 2
+
 
 
 
@@ -36,6 +38,30 @@
             key-positions = <14 15>;
             bindings = <&caps_word>;
         };
+
+        combo_lclk {
+            layers = <0>;
+            timeout-ms = <40>;
+            require-prior-idle-ms = <150>;
+            key-positions = <12 13>;
+            bindings = <&mkp LCLK>;
+        };
+
+        combo_rclk {
+            layers = <0>;
+            timeout-ms = <40>;
+            require-prior-idle-ms = <150>;
+            key-positions = <11 12>;
+            bindings = <&mkp RCLK>;
+        };
+
+        combo_mclk {
+            layers = <0>;
+            timeout-ms = <40>;
+            require-prior-idle-ms = <150>;
+            key-positions = <10 11>;
+            bindings = <&mkp MCLK>;
+        };
     };
 
     behaviors {
@@ -44,6 +70,7 @@
             #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <180>;
+            quick-tap-ms = <175>;
             require-prior-idle-ms = <150>;
             bindings = <&kp>, <&kp>;
         };
@@ -72,6 +99,13 @@
             #binding-cells = <0>;
             tapping-term-ms = <200>;
             bindings = <&kp LCTRL>, <&kp LC(LSHFT)>;
+        };
+
+        playnextprev: play_next_previous_media {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <300>;
+            bindings = <&kp C_PLAY_PAUSE>, <&kp C_NEXT>, <&kp C_PREVIOUS>;
         };
     };
 
@@ -115,16 +149,16 @@
         num_layer {
             bindings = <
         //╭──────────┬──────────┬──────────┬──────────┬──────────╮          ╭──────────┬──────────┬──────────┬──────────┬──────────╮
-        //│          │    7     │    8     │    9     │          │          │          │          │          │          │          │
-          &none        &mp F7 N7  &mp F8 N8  &mp F9 N9  &kp HOME              &kp PG_UP  &none      &none      &none      &none
+        //│  MCLK    │    7     │    8     │    9     │          │          │  PG_UP   │ BT_SEL 0 │ BT_SEL 1 │ BT_SEL 2 │  BT_CLR  │
+          &mkp MCLK    &mp F7 N7  &mp F8 N8  &mp F9 N9  &kp HOME              &kp PG_UP  &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_CLR
         //├──────────┼──────────┼──────────┼──────────┼──────────┤          ├──────────┼──────────┼──────────┼──────────┼──────────┤
-        //│          │    4     │    5     │    6     │          │          │          │          │          │          │          │
-          &kp F12      &mp F4 N4  &mp F5 N5  &mp F6 N6  &kp END               &kp PG_DN  &ht H LEFT &ht K UP   &ht L RIGHT &none
+        //│  LCLK    │    4     │    5     │    6     │          │          │  PG_DN   │  LEFT    │   UP     │  RIGHT   │          │
+          &mkp LCLK    &mp F4 N4  &mp F5 N5  &mp F6 N6  &kp END               &kp PG_DN  &ht H LEFT &ht K UP   &ht L RIGHT &none
         //├──────────┼──────────┼──────────┼──────────┼──────────┤          ├──────────┼──────────┼──────────┼──────────┼──────────┤
-        //│          │    1     │    2     │    3     │    0     │          │          │          │          │          │          │
-          &kp F11      &mp F1 N1  &mp F2 N2  &mp F3 N3  &mp F10 N0            &none      &none      &ht J DOWN &none      &none
+        //│  RCLK    │    1     │    2     │    3     │    0     │          │  VOL_DN  │  VOL_UP  │  DOWN    │  MUTE    │ PLAY/PAU │
+          &mkp RCLK    &mp F1 N1  &mp F2 N2  &mp F3 N3  &mp F10 N0            &kp C_VOL_DN &kp C_VOL_UP &ht J DOWN &kp C_MUTE &playnextprev
         //╰──────────┴──────────┴──────────┼──────────┼──────────┤          ├──────────┼──────────┼──────────┴──────────┴──────────╯
-                                  &none      &kp LSHFT  &cs                   &none      &none      &studio_unlock
+                                  &none      &kp LSHFT  &cs                   &bootloader &sys_reset &studio_unlock
         //                      ╰──────────┴──────────┴──────────╯          ╰──────────┴──────────┴──────────╯
             >;
         };
