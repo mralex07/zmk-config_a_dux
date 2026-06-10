@@ -64,6 +64,7 @@
 
         data-mode = "relative";
         sensitivity = "2x";
+        invert-y;
     };
 };
 
