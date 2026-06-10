@@ -64,6 +64,7 @@
 
         data-mode = "relative";
         sensitivity = "2x";
+        primary-tap-enable;
         invert-y;
     };
 };

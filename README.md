@@ -25,6 +25,7 @@
 * Поточні робочі параметри Cirque:
   * `data-mode = "relative"`
   * `sensitivity = "2x"`
+  * `primary-tap-enable;`
   * `invert-y`
   * `data-ready-gpios = <&gpio1 2 GPIO_ACTIVE_HIGH>`
 
