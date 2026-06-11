@@ -6,6 +6,68 @@
 
 ---
 
+## ⌨️ Поточна розкладка та шари
+
+Прошивка має 3 основні шари:
+
+### 1. Базовий шар `default`
+* Основна розкладка: `Q W F P B / J L U Y ;`, `A R S T G / M N E I O`, `Z X C D V / K H , . /`.
+* Home Row Mods на базовому шарі:
+  * `A` утриманням дає `LGUI`.
+  * `R` утриманням дає `LALT`.
+  * `S` утриманням дає `LCTRL`.
+  * `T` утриманням дає `LSHFT`.
+  * `N` утриманням дає `RSHFT`.
+  * `E` утриманням дає `RCTRL`.
+  * `I` утриманням дає `LALT`.
+  * `O` утриманням дає `RGUI`.
+* Великі пальці:
+  * `Esc`, `Tab`
+  * `Space` / утримання `SYM`
+  * `Return` / утримання `NUM`
+  * `Backspace`, `Delete`
+
+### 2. Шар `SYM`
+Шар символів активується утриманням `Space`:
+* Основні символи: `` ` ``, `*`, `^`, `(`, `)`, `!`, `~`, `"`, `+`, `$`, `{`, `}`, `&`, `|`, `'`, `=`, `[`, `]`, `%`, `\`, `#`, `@`.
+* `RALT` доступний на лівій руці.
+* Клавіша `-` має dual-role поведінку через `mp`: tap = `-`, hold = `_`.
+* На цьому ж шарі рух трекпадом перемикається з курсора на scroll mode.
+
+### 3. Шар `NUM`
+Шар цифр, навігації, Bluetooth і сервісних команд активується утриманням `Return`:
+* Ліва рука:
+  * `MCLK`, `LCLK`, `RCLK` для фізичних кліків миші.
+  * Цифри `1-9`, `0` із F-клавішами на hold: `F1-F10`.
+  * `Home`, `End`, `LShift`, `cs`.
+* Права рука:
+  * `Page Up`, `Page Down`, стрілки `Left/Up/Right/Down`.
+  * `BT_SEL 0`, `BT_SEL 1`, `BT_SEL 2`, `BT_CLR`.
+  * `C_VOL_DN`, `C_VOL_UP`, `C_MUTE`, `playnextprev`.
+  * `Bootloader`, `Sys Reset`, `Studio Unlock`.
+
+### 4. Combo та спеціальні поведінки
+* **`G + M`** → `caps_word`.
+* **`S + T`** → `LCLK`.
+* **`R + S`** → `RCLK`.
+* **`A + R`** → `MCLK`.
+* `ht` — home-row hold-tap з `quick-tap-ms = <175>` для зменшення хибних модифікаторів під час швидкого друку.
+* `lp` — layer/tap behavior для великих пальців: hold відкриває шар, tap надсилає звичайну клавішу.
+* `mp` — dual-role key behavior для символів і цифр, зокрема `-/_` та `1/F1` ... `0/F10`.
+* `cs` — tap-dance:
+  * 1 натискання → `LCTRL`.
+  * 2 швидких натискання → `LC(LSHFT)`.
+* `playnextprev` — tap-dance для медіа:
+  * 1 натискання → Play / Pause.
+  * 2 швидких натискання → Next.
+  * 3 швидких натискання → Previous.
+
+Актуальна візуальна карта розкладки зберігається у [keymap-drawer/Keiler.svg](./keymap-drawer/Keiler.svg), а її YAML-джерело — у [keymap-drawer/Keiler.yaml](./keymap-drawer/Keiler.yaml).
+
+![Візуальна карта розкладки Keiler](./keymap-drawer/Keiler.svg)
+
+---
+
 ## 🎛️ Жести та керування мишею (Pointing & Gestures)
 
 ### 1. Режим прокручування (Scroll Mode)
@@ -59,6 +121,8 @@
 * **`A + R`** $\rightarrow$ **Середній клік** (`&mkp MCLK`).
 * **Затримка (Timeout)**: 40 мс із захистом `require-prior-idle-ms = <150>` для уникнення хибних спрацьовувань під час звичайного друку.
 
+Окремо на базовому шарі є combo **`G + M`** $\rightarrow$ `caps_word` із `timeout-ms = <75>` та `require-prior-idle-ms = <100>`.
+
 ### 7. Можливі додаткові жести трекпада
 У ZMK для Cirque Pinnacle практичніше мислити не мультитач-жестами як на ноутбуці, а режимами вводу через `input-processors`, шари та mouse button events. Частина поведінки вже реалізована, решта нижче — кандидати для наступних ітерацій.
 
@@ -88,13 +152,16 @@
 * `wakeup-source;` додано в `kscan` обох половинок, щоб клавіші могли будити контролери зі сну.
 
 ### 2. Збереження Bluetooth bond після фізичного вимикача
-* Обидві половинки явно вмикають persistent settings storage: `CONFIG_SETTINGS`, `CONFIG_BT_SETTINGS`, `CONFIG_NVS`, `CONFIG_SETTINGS_NVS`.
+* Обидві половинки явно вмикають persistent settings storage: `CONFIG_SETTINGS`, `CONFIG_BT_SETTINGS`, `CONFIG_FLASH`, `CONFIG_FLASH_PAGE_LAYOUT`, `CONFIG_NVS`, `CONFIG_SETTINGS_NVS`.
 * `CONFIG_ZMK_SETTINGS_SAVE_DEBOUNCE=5000` зменшує затримку запису налаштувань у flash до 5 секунд, щоб pairing/profile встигали зберегтися перед вимкненням живлення фізичним тумблером.
 * Режими, що стирають bonds на старті, явно вимкнені:
   * `# CONFIG_ZMK_BLE_CLEAR_BONDS_ON_START is not set`
   * `# CONFIG_ZMK_SETTINGS_RESET_ON_START is not set`
 
-### 3. Посилений сигнал Bluetooth (`+8 dBm TX Power`)
+### 3. Експериментальні BLE-покращення ZMK
+* Увімкнено `CONFIG_ZMK_BLE_EXPERIMENTAL_CONN=y`, щоб використовувати новіші BLE-покращення ZMK/Zephyr для стабільності з'єднання.
+
+### 4. Посилений сигнал Bluetooth (`+8 dBm TX Power`)
 * Потужність Bluetooth-радіомодуля nRF52840 підвищено з базових 0 dBm до **`+8 dBm`** (`CONFIG_BT_CTLR_TX_PWR_PLUS_8=y`).
 * **Результат**: покращує стабільність зв'язку між половинками та хостом у шумному 2.4 ГГц середовищі.
 
@@ -124,11 +191,90 @@
 
 ### 1. Захист від хибних спрацьовувань Home Row Mods
 * В поведінку `hold-tap` (`ht`) додано параметр `quick-tap-ms = <175>`. При швидкому друку подвійне натискання літери не перетвориться випадково на гарячу клавішу (Cmd/Ctrl/Alt).
+* `require-prior-idle-ms = <150>` додатково зменшує випадкові спрацювання hold на home-row mods під час безперервного набору.
+* Для layer/tap клавіш великих пальців використовується окремий behavior `lp` із `hold-preferred`, щоб утримання `Space`/`Return` надійно відкривало `SYM`/`NUM`.
+* Для цифр/F-клавіш і `-/_` використовується окремий behavior `mp` із `tap-preferred`.
 
 ### 2. Сервісні команди (Правий великий палець на `NUM`)
 * **`Bootloader`** — Переводить плату в режим USB-накопичувача для прошивки `.uf2` файлом без розбирання корпусу клавіатури.
 * **`Sys Reset`** — Перезавантажує контролер.
 * **`Studio Unlock`** — Розблоковує підключення до веб-конфігуратора **ZMK Studio**.
+* Для лівої половинки в `build.yaml` додано snippet `studio-rpc-usb-uart`, щоб ZMK Studio міг працювати через USB/UART RPC.
+
+---
+
+## 🧩 Робота з ZMK Studio
+
+ZMK Studio дозволяє змінювати розкладку через графічний інтерфейс без редагування `.keymap` і без повної перепрошивки після кожної зміни.
+
+### Що вже увімкнено в цій прошивці
+* `CONFIG_ZMK_STUDIO=y` увімкнено для прошивки.
+* Для лівої половинки в [build.yaml](./build.yaml) додано `snippet: studio-rpc-usb-uart`.
+* На шарі `NUM` є клавіша `Studio Unlock` (`&studio_unlock`) на правому великому пальці.
+* Ліва половинка є central (`CONFIG_ZMK_SPLIT_ROLE_CENTRAL=y`), тому саме її треба підключати до комп'ютера для роботи зі Studio через USB.
+
+### Як підключитися
+1. Підключіть **ліву половинку** Keiler до комп'ютера через USB.
+2. Переконайтеся, що клавіатура працює саме через USB endpoint. Якщо одночасно активні USB і Bluetooth, ZMK Studio найнадійніше працює, коли output вибраний на той самий endpoint, через який ви підключаєтесь.
+3. Відкрийте ZMK Studio у Chrome/Edge або в нативному застосунку ZMK Studio.
+4. Натисніть на клавіатурі `NUM` + `Studio Unlock`.
+5. У ZMK Studio виберіть Keiler зі списку пристроїв і дозвольте доступ до USB serial/Web Serial порту.
+6. Змініть потрібні key bindings або layer names у UI.
+7. Збережіть зміни в ZMK Studio. Зміни записуються в налаштування клавіатури, а не в `config/Keiler.keymap`.
+
+### Що можна міняти через Studio
+* Призначення клавіш на уже наявних шарах.
+* Назви шарів.
+* Увімкнення/використання уже описаних у прошивці behaviors.
+* Імпорт/експорт keymap зі Studio.
+
+### Обмеження
+* Studio не додає нові behaviors, яких немає в devicetree/keymap прошивки.
+* Studio не додає нові фізичні layouts.
+* Якщо почати керувати розкладкою через Studio, подальші зміни в [config/Keiler.keymap](./config/Keiler.keymap) можуть не застосовуватися до клавіатури, доки в ZMK Studio не виконати **Restore Stock Settings**.
+* Після **Restore Stock Settings** клавіатура повертається до stock keymap із прошивки, тобто до того, що зібрано з репозиторію.
+* Якщо треба змінити низькорівневі речі на кшталт `input-processors`, scroll mode, Cirque parameters, combo definitions або нові custom behaviors, це треба робити в репозиторії й перепрошивати клавіатуру.
+
+### Практичний робочий процес
+* Для швидкого експерименту з перестановкою клавіш використовуйте ZMK Studio.
+* Коли фінальна розкладка визначена, перенесіть важливі зміни назад у [config/Keiler.keymap](./config/Keiler.keymap), виконайте commit/push і зберіть прошивку.
+* Якщо після цього клавіатура продовжує показувати стару Studio-версію розкладки, відкрийте ZMK Studio та виконайте **Restore Stock Settings**.
+
+### Типові проблеми
+* **Studio не бачить клавіатуру**: перевірте, що підключена ліва половинка, прошивка зібрана зі `studio-rpc-usb-uart`, і натиснуто `NUM` + `Studio Unlock`.
+* **Немає доступу до serial port**: на Linux може знадобитися додати користувача до групи доступу до serial-портів, наприклад `dialout` або `uucp`, залежно від дистрибутива.
+* **Зміни в `.keymap` не видно після перепрошивки**: найімовірніше, активні налаштування Studio збережені у flash. Виконайте **Restore Stock Settings** у ZMK Studio.
+
+---
+
+## 🖼️ Автоматична карта розкладки (keymap-drawer)
+
+У репозиторії є окремий GitHub Actions workflow [draw-keymaps.yml](./.github/workflows/draw-keymaps.yml), який автоматично оновлює візуальну карту розкладки після push.
+
+Workflow запускається при змінах у:
+* `config/*.keymap`
+* `config/*.dtsi`
+* `config/*.json`
+* `.github/workflows/draw-keymaps.yml`
+
+Що робить workflow:
+1. Встановлює `keymap-drawer==0.18.1`.
+2. Парсить [config/Keiler.keymap](./config/Keiler.keymap) з `-c 10`.
+3. Додає layout-опис із [config/Keiler.json](./config/Keiler.json).
+4. Перегенеровує:
+   * [keymap-drawer/Keiler.yaml](./keymap-drawer/Keiler.yaml)
+   * [keymap-drawer/Keiler.svg](./keymap-drawer/Keiler.svg)
+5. Якщо файли змінилися, комітить їх назад у репозиторій як `chore: update keymap drawer`.
+
+Локально карту можна перегенерувати так:
+```bash
+keymap parse -z config/Keiler.keymap -c 10 -o /tmp/Keiler.yaml
+{
+  echo "layout: {qmk_info_json: config/Keiler.json, qmk_layout: LAYOUT}"
+  cat /tmp/Keiler.yaml
+} > keymap-drawer/Keiler.yaml
+keymap draw keymap-drawer/Keiler.yaml -o keymap-drawer/Keiler.svg
+```
 
 ---
 
@@ -140,11 +286,14 @@
    git commit -m "docs: update Keiler trackpad firmware notes"
    git push
    ```
-3. Перейдіть у вкладку **Actions** вашого GitHub-репозиторію та дочекайтеся завершення збірки.
-4. Скачайте архів із прошивкою.
-5. За потреби один раз прошийте `settings_reset`, щоб очистити старі bonds/settings.
-6. Обов'язково після `settings_reset` прошийте нормальні `Keiler_left` та `Keiler_right`.
-7. Забудьте клавіатуру на ноуті, спарте заново, зачекайте 10-15 секунд, потім перевірте вимкнення/увімкнення фізичним перемикачем.
+3. Після push автоматично запустяться:
+   * основний ZMK build workflow;
+   * keymap-drawer workflow, якщо змінювалися файли розкладки або геометрії.
+4. Перейдіть у вкладку **Actions** вашого GitHub-репозиторію та дочекайтеся завершення збірки.
+5. Скачайте архів із прошивкою.
+6. За потреби один раз прошийте `settings_reset`, щоб очистити старі bonds/settings.
+7. Обов'язково після `settings_reset` прошийте нормальні `Keiler_left` та `Keiler_right`.
+8. Забудьте клавіатуру на ноуті, спарте заново, зачекайте 10-15 секунд, потім перевірте вимкнення/увімкнення фізичним перемикачем.
 
 ---
 
@@ -153,8 +302,10 @@
 ```conf
 CONFIG_ZMK_SPLIT_ROLE_CENTRAL=y
 CONFIG_ZMK_MOUSE=y
+CONFIG_ZMK_BLE_EXPERIMENTAL_CONN=y
 CONFIG_ZMK_SETTINGS_SAVE_DEBOUNCE=5000
 CONFIG_BT_CTLR_TX_PWR_PLUS_8=y
+CONFIG_ZMK_STUDIO=y
 ```
 
 У build log для правої половинки мають бути:
@@ -163,6 +314,7 @@ CONFIG_INPUT_PINNACLE=y
 CONFIG_INPUT_INIT_PRIORITY=99
 CONFIG_NRFX_TWIM1=y
 CONFIG_ZMK_INPUT_SPLIT=y
+CONFIG_ZMK_BLE_EXPERIMENTAL_CONN=y
 CONFIG_ZMK_SETTINGS_SAVE_DEBOUNCE=5000
 CONFIG_BT_CTLR_TX_PWR_PLUS_8=y
 ```

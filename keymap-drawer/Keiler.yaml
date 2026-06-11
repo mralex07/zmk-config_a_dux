@@ -1,4 +1,4 @@
-layout: {zmk_keyboard: Keiler}
+layout: {qmk_info_json: config/Keiler.json, qmk_layout: LAYOUT}
 layers:
   default:
   - [Q, W, F, P, B, J, L, U, Y, ;]
